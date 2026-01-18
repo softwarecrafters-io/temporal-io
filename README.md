@@ -9,6 +9,45 @@ Temporal.io configuration for deployment on Dokploy.
 | temporal | 7233 | gRPC server (API for workers/clients) |
 | temporal-ui | 8233 | Web admin interface |
 
+## Local Development
+
+### 1. Install Temporal CLI
+
+```bash
+brew install temporal
+```
+
+### 2. Start the dev server
+
+```bash
+temporal server start-dev
+```
+
+### 3. Run the worker (new terminal)
+
+```bash
+npm run worker
+```
+
+### 4. Start a workflow (new terminal)
+
+```bash
+npm run start
+```
+
+### 5. View in UI
+
+Open http://localhost:8233
+
+## Project Structure
+
+| File | Description |
+|------|-------------|
+| `src/activities.ts` | Tasks that can fail and retry |
+| `src/workflows.ts` | Orchestrates activities |
+| `src/worker.ts` | Executes your code (must be running) |
+| `src/client.ts` | Starts workflows |
+
 ## Deployment on Dokploy
 
 ### 1. Create PostgreSQL Database
@@ -31,20 +70,6 @@ Temporal.io configuration for deployment on Dokploy.
 Configure domains/ports in Dokploy:
 - Port 7233 for gRPC API
 - Port 8233 for Web UI
-
-## Local Usage
-
-```bash
-cp .env.example .env
-# Edit .env with your values
-docker compose up -d
-```
-
-## Verify Installation
-
-```bash
-temporal workflow list --address localhost:7233
-```
 
 ## URLs
 
