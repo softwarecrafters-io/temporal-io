@@ -1,61 +1,52 @@
-# Temporal Self-Hosted para Dokploy
+# Temporal Self-Hosted for Dokploy
 
-Configuración de Temporal.io para despliegue en Dokploy.
+Temporal.io configuration for deployment on Dokploy.
 
-## Componentes
+## Components
 
-| Servicio | Puerto | Descripción |
-|----------|--------|-------------|
-| temporal | 7233 | Servidor gRPC (API para workers/clientes) |
-| temporal-ui | 8233 | Interfaz web de administración |
-| postgresql | 5432 | Base de datos (interno) |
-| temporal-admin-tools | - | Herramientas de administración CLI |
+| Service | Port | Description |
+|---------|------|-------------|
+| temporal | 7233 | gRPC server (API for workers/clients) |
+| temporal-ui | 8233 | Web admin interface |
 
-## Despliegue en Dokploy
+## Deployment on Dokploy
 
-1. Crear un nuevo proyecto en Dokploy
-2. Seleccionar "Docker Compose"
-3. Subir este repositorio o conectar con Git
-4. Configurar las variables de entorno en Dokploy:
+### 1. Create PostgreSQL Database
+
+1. Go to Dokploy dashboard
+2. Create a new Database service (PostgreSQL)
+3. Note the internal hostname (e.g., `temporal-temporaldb-xxxxx`)
+
+### 2. Deploy Temporal
+
+1. Create a new Compose project in Dokploy
+2. Connect this repository or paste the docker-compose.yml
+3. Set environment variables:
    - `POSTGRES_USER`
    - `POSTGRES_PASSWORD`
-5. Configurar los dominios/puertos expuestos:
-   - Puerto 7233 para API gRPC
-   - Puerto 8233 para UI web
+4. Deploy
 
-## Uso local
+### 3. Expose Ports
+
+Configure domains/ports in Dokploy:
+- Port 7233 for gRPC API
+- Port 8233 for Web UI
+
+## Local Usage
 
 ```bash
-# Copiar variables de entorno
 cp .env.example .env
-
-# Editar .env con valores seguros
-nano .env
-
-# Iniciar servicios
+# Edit .env with your values
 docker compose up -d
-
-# Ver logs
-docker compose logs -f temporal
 ```
 
-## Verificar instalación
+## Verify Installation
 
 ```bash
-# Usando temporal-admin-tools
-docker compose exec temporal-admin-tools temporal workflow list
-
-# O con temporal CLI local
 temporal workflow list --address localhost:7233
-```
-
-## Crear namespace
-
-```bash
-docker compose exec temporal-admin-tools temporal operator namespace create mi-namespace
 ```
 
 ## URLs
 
-- **UI Web**: http://localhost:8233
+- **Web UI**: http://localhost:8233
 - **gRPC API**: localhost:7233
