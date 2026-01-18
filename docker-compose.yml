@@ -1,0 +1,28 @@
+services:
+  temporal:
+    image: temporalio/auto-setup:1.29.2
+    container_name: temporal-server
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PWD=${POSTGRES_PASSWORD}
+      - POSTGRES_SEEDS=temporal-temporaldb-ad2dc2
+    ports:
+      - "7233:7233"
+    networks:
+      - dokploy-network
+
+  temporal-ui:
+    image: temporalio/ui:2.44.1
+    container_name: temporal-ui
+    environment:
+      - TEMPORAL_ADDRESS=temporal-server:7233
+    ports:
+      - "8233:8080"
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true

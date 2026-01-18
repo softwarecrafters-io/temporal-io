@@ -1,0 +1,30 @@
+# Temporal Dynamic Configuration
+# https://docs.temporal.io/references/dynamic-configuration
+
+system.forceSearchAttributesCacheRefreshOnRead:
+  - value: true
+
+limit.maxIDLength:
+  - value: 255
+
+# Frontend settings
+frontend.keepAliveMaxConnectionAge:
+  - value: 5m
+
+frontend.keepAliveMaxConnectionAgeGrace:
+  - value: 70s
+
+# History settings
+history.maximumSignalsPerExecution:
+  - value: 10000
+
+# Matching settings
+matching.numTaskqueueReadPartitions:
+  - value: 5
+
+matching.numTaskqueueWritePartitions:
+  - value: 5
+
+# Worker settings
+worker.enableScheduler:
+  - value: true
